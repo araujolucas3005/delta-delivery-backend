@@ -1,7 +1,7 @@
 interface AppErrorParams {
   message: string;
   status?: number;
-  type?: string;
+  type?: "[default]" | "[body-validation]" | "[already-exists]";
 }
 
 export class AppError {

@@ -3,7 +3,6 @@ import { InferType } from "yup";
 
 import { AppError } from "../../../../shared/infra/http/errors/AppError";
 import { prisma } from "../../../../shared/infra/prisma/prismaClient";
-import { ErrorTypesEnum } from "../../../../shared/types/ErrorTypes";
 import { createProductTypeSchema } from "./createProductTypeSchema";
 
 type Request = InferType<typeof createProductTypeSchema>;
@@ -20,7 +19,7 @@ export class CreateProductTypeUseCase {
     if (productTypeExists) {
       throw new AppError({
         message: "Product type already exists",
-        type: ErrorTypesEnum.ALREADY_EXISTS,
+        type: "[already-exists]",
       });
     }
 

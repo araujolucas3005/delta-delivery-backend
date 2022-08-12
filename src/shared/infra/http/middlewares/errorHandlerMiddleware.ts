@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { ValidationError } from "yup";
-import { ErrorTypesEnum } from "../../../types/ErrorTypes";
 import { AppError } from "../errors/AppError";
 
 export function errorHandlerMiddleware(
@@ -15,7 +14,7 @@ export function errorHandlerMiddleware(
   if (err instanceof ValidationError) {
     return res.status(400).json({
       status: 400,
-      type: ErrorTypesEnum.BODY_VALIDATION,
+      type: "[body-validation]",
       messages: err.errors,
     });
   }
