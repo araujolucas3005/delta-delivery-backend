@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ProductType {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  Product Product[]
+
+  @@map("product_types")
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  description String
+  size        String
+  imageName   String?
+  value       Int
+  isAvailable Boolean  @default(true) @map("is_available")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  productType   ProductType @relation(fields: [productTypeId], references: [id])
+  productTypeId String      @map("product_type_id")
+
+  productsOrders ProductsOrders[]
+
+  @@map("products")
+}
+
+model PaymentMethod {
+  id        String   @id @default(uuid())
+  type      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  Order Order[]
+
+  @@map("payment_methods")
+}
+
+model Order {
+  id                String   @id @default(uuid())
+  clientName        String   @map("client_name")
+  clientPhoneNumber String   @map("client_phone_number")
+  streetName        String   @map("street_name")
+  houseNumber       String   @map("house_number")
+  neighborhood      String
+  zipcode           String
+  value             Int
+  change            Int
+  status            String
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  paymentMethodId String        @map("payment_method_id")
+  paymentMethod   PaymentMethod @relation(fields: [paymentMethodId], references: [id])
+
+  productsOrders ProductsOrders[]
+
+  @@map("orders")
+}
+
+model ProductsOrders {
+  id String @id @default(uuid())
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @map("product_id")
+
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String @map("order_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("products_orders")
+}
+
+model UserManager {
+  id       String @id @default(uuid())
+  name     String
+  login    String @unique
+  password String
+
+  @@map("user_managers")
+}
