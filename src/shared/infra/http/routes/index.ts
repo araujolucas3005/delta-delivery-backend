@@ -4,7 +4,8 @@ import { paymentMethodRoutes } from "../../../../modules/payment-method/infra/ht
 
 const routes = Router();
 
-routes.use("/product-types", productTypeRoutes);
-routes.use("/payment-methods", paymentMethodRoutes);
+routes
+  .use("/product-types", productTypeRoutes)
+  .use("/payment-methods", paymentMethodRoutes);
 
 export { routes };
