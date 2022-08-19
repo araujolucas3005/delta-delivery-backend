@@ -66,7 +66,7 @@ export class CreateProductUseCase {
             productType: productTypeCreateOptions,
           },
           include: {
-            productType: !!data.productType,
+            productType: true,
           },
         });
 
