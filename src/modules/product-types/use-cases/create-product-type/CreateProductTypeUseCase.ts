@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import { singleton } from "tsyringe";
 import { InferType } from "yup";
 
 import { AppError } from "../../../../shared/infra/http/errors/AppError";
@@ -7,7 +7,7 @@ import { createProductTypeSchema } from "./createProductTypeSchema";
 
 type Request = InferType<typeof createProductTypeSchema>;
 
-@injectable()
+@singleton()
 export class CreateProductTypeUseCase {
   async execute(data: Request) {
     createProductTypeSchema.validateSync(data, { stripUnknown: true });
