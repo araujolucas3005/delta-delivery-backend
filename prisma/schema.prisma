@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 datasource db {
@@ -23,10 +24,10 @@ model ProductType {
 
 model Product {
   id          String   @id @default(uuid())
+  name        String
   description String
-  size        String
-  imageName   String?
-  value       Int
+  imageUrl    String?
+  price       Int?
   isAvailable Boolean  @default(true) @map("is_available")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")

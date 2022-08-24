@@ -4,16 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only --exit-child --watch src src/shared/infra/http/server.ts",
+    "dev": "ts-node-dev --respawn --transpile-only --exit-child --ignore-watch src/public src/shared/infra/http/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^4.2.1",
+    "@types/multer": "^1.4.7",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-async-errors": "^3.1.1",
+    "multer": "^1.4.5-lts.1",
     "prisma": "^4.2.1",
     "reflect-metadata": "^0.1.13",
     "ts-node-dev": "^2.0.0",
