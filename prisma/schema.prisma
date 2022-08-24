@@ -61,16 +61,29 @@ model Order {
   zipcode           String
   value             Int
   change            Int
-  status            String
+  status            String   @map("order_status")
   createdAt         DateTime @default(now()) @map("created_at")
   updatedAt         DateTime @updatedAt @map("updated_at")
 
   paymentMethodId String        @map("payment_method_id")
   paymentMethod   PaymentMethod @relation(fields: [paymentMethodId], references: [id])
+  orderStatus OrderStatus @relation(fields: [status], references: [id])
+  
 
   productsOrders ProductsOrders[]
 
   @@map("orders")
+}
+
+model OrderStatus{
+  id        String   @id @default(uuid())
+  status    String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  Order Order[]
+
+  @@map("order_status")
 }
 
 model ProductsOrders {
