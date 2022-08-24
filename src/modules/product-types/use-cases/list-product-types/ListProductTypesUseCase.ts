@@ -1,7 +1,7 @@
-import { injectable } from "tsyringe";
+import { singleton } from "tsyringe";
 import { prisma } from "../../../../shared/infra/prisma/prismaClient";
 
-@injectable()
+@singleton()
 export class ListProductTypesUseCase {
   async execute() {
     const productTypes = await prisma.productType.findMany({
