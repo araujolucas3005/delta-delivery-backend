@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { multerInstance } from "../../../../../shared/infra/http/config/multerConfig";
-import { CreateProductController } from "../../../use-cases/create-product/CreateProductTypeController";
+import { CreateProductController } from "../../../use-cases/create-product/CreateProductController";
 import { DeleteProductController } from "../../../use-cases/delete-product/DeleteProductController";
 import { FindSingleProductController } from "../../../use-cases/find-single-product/FindSingleProductController";
 import { ListProductsController } from "../../../use-cases/list-product/ListProductTypesController";
