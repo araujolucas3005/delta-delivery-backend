@@ -8,7 +8,7 @@ const routes = Router();
 routes
   .use("/product-types", productTypeRoutes)
   .use("/payment-methods", paymentMethodRoutes)
-  .use("/products", productRoutes);
+  .use("/products", productRoutes)
   .use("/payment-methods", paymentMethodRoutes);
 
 export { routes };
