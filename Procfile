@@ -1,1 +1,1 @@
-web: npx prisma migrate dev
+web: npx prisma migrate deploy
