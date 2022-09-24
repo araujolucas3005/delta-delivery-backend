@@ -17,4 +17,3 @@ jobs:
           heroku_email: "araujolucas3005@gmail.com"
           script: |
             npx prisma migrate dev
-            npm run dev
