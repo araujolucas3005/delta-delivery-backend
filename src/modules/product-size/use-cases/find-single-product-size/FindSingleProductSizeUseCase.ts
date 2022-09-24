@@ -4,18 +4,16 @@ import { AppError } from "../../../../shared/infra/http/errors/AppError";
 import { prisma } from "../../../../shared/infra/prisma/prismaClient";
 
 @singleton()
-export class DeleteProductTypeUseCase {
+export class FindSingleProductSizeUseCase {
   async execute(id: string) {
-    const productTypeExists = await prisma.productType.findFirst({
+    const productSizeExists = await prisma.productSize.findFirst({
       where: { id },
     });
 
-    if (!productTypeExists) {
-      throw new AppError({ status: 404 });
+    if (!productSizeExists) {
+      throw new AppError({ message: "Product size not found", status: 404 });
     }
 
-    await prisma.productType.delete({
-      where: { id },
-    });
+    return productSizeExists;
   }
 }

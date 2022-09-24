@@ -36,6 +36,7 @@ model Product {
   productTypeId String      @map("product_type_id")
 
   productsOrders ProductsOrders[]
+  sizes          ProductSizesProducts[]
 
   @@map("products")
 }
@@ -67,15 +68,14 @@ model Order {
 
   paymentMethodId String        @map("payment_method_id")
   paymentMethod   PaymentMethod @relation(fields: [paymentMethodId], references: [id])
-  orderStatus OrderStatus @relation(fields: [status], references: [id])
-  
+  orderStatus     OrderStatus   @relation(fields: [status], references: [id])
 
   productsOrders ProductsOrders[]
 
   @@map("orders")
 }
 
-model OrderStatus{
+model OrderStatus {
   id        String   @id @default(uuid())
   status    String   @unique
   createdAt DateTime @default(now()) @map("created_at")
@@ -107,4 +107,29 @@ model UserManager {
   password String
 
   @@map("user_managers")
+}
+
+model ProductSize {
+  id        String   @id @default(uuid())
+  unit      String   @unique
+  value     String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  products ProductSizesProducts[]
+
+  @@map("product_sizes")
+}
+
+model ProductSizesProducts {
+  id    String @id @default(uuid())
+  price Int
+
+  productSize   ProductSize @relation(fields: [productSizeId], references: [id])
+  productSizeId String      @map("product_size_id")
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @map("product_id")
+
+  @@map("products_sizes_products")
 }

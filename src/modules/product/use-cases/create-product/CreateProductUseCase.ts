@@ -61,9 +61,22 @@ export class CreateProductUseCase {
             name: data.name,
             description: data.description,
             isAvailable: data.isAvailable,
-            price: data.price * 100,
             imageUrl: data.imageUrl && `product/${data.imageUrl}`,
             productType: productTypeCreateOptions,
+            ...(data.price
+              ? {
+                  price: Number(data.price) * 100,
+                }
+              : {
+                  sizes: {
+                    createMany: {
+                      data: data.sizes!.map(size => ({
+                        productSizeId: size.id,
+                        price: size.price * 100,
+                      })),
+                    },
+                  },
+                }),
           },
           include: {
             productType: true,
