@@ -1,1 +1,1 @@
-web: npx prisma migrate deploy
+worker: npx prisma migrate deploy
