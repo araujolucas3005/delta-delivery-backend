@@ -17,12 +17,15 @@ export const createProductSchema = yup.object().shape({
       return yup.array().optional();
     }
 
-    return yup.array().of(
-      yup.object({
-        id: yup.string().uuid().required(),
-        price: yup.number().required(),
-      }),
-    );
+    return yup
+      .array()
+      .of(
+        yup.object({
+          id: yup.string().uuid().required(),
+          price: yup.number().required(),
+        }),
+      )
+      .min(1);
   }),
   productType: yup.lazy((_, { parent }) => {
     if (!parent.productTypeId) {
