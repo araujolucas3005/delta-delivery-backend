@@ -15,7 +15,7 @@ app.use(express.static(fileStorageFolder));
 app.use(routes);
 app.use(errorHandlerMiddleware);
 
-const port = process.env.API_PORT ?? 8082;
+const port = process.env.PORT ?? process.env.API_PORT ?? 8082;
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
