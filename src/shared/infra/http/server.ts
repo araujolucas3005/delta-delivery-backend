@@ -3,6 +3,7 @@ import "express-async-errors";
 import "dotenv/config";
 import "../../container";
 import express from "express";
+import cors from "cors";
 
 import { errorHandlerMiddleware } from "./middlewares/errorHandlerMiddleware";
 import { routes } from "./routes";
@@ -11,6 +12,7 @@ import { fileStorageFolder } from "./config/multerConfig";
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 app.use(express.static(fileStorageFolder));
 app.use(routes);
 app.use(errorHandlerMiddleware);
