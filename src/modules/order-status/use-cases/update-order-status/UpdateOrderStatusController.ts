@@ -6,7 +6,12 @@ export class UpdateOrderStatusController {
   async handle(req: Request, res: Response) {
     const useCase = container.resolve(UpdateOrderStatusUseCase);
 
-    const response = await useCase.execute(req.body);
+    const {
+      params: { id },
+      body,
+    } = req;
+
+    const response = await useCase.execute(id, body);
 
     return res.status(200).json(response);
   }
