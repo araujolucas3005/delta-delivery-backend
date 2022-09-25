@@ -32,7 +32,7 @@ export class UpdateOrderStatusUseCase {
     }
 
     const updatedOrderStatus = await prisma.orderStatus.update({
-      where: { id: data.id },
+      where: { id },
       data,
     });
 
