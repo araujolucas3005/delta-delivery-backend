@@ -143,3 +143,10 @@ model ProductSizesProducts {
 
   @@map("products_sizes_products")
 }
+
+model StoreStatus {
+  id     Int     @id @unique @default(1)
+  status Boolean @default(false)
+
+  @@map("store_status")
+}

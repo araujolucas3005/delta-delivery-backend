@@ -5,6 +5,7 @@ import { productRoutes } from "../../../../modules/product/infra/http/routes/pro
 import { productSizeRoutes } from "../../../../modules/product-size/infra/http/routes/product-sizes.routes";
 import { orderStatusRoutes } from "../../../../modules/order-status/infra/http/order-status.routes";
 import { orderRoutes } from "../../../../modules/order/infra/http/order.routes";
+import { storeStatusRoutes } from "../../../../modules/store-status/infra/http/routes/store-status-routes";
 
 const routes = Router();
 
@@ -15,6 +16,7 @@ routes
   .use("/payment-methods", paymentMethodRoutes)
   .use("/product-sizes", productSizeRoutes)
   .use("/order-status", orderStatusRoutes)
-  .use("/orders", orderRoutes);
+  .use("/orders", orderRoutes)
+  .use("/store-status", storeStatusRoutes);
 
 export { routes };
