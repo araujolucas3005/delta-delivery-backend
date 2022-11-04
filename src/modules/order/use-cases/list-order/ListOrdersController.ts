@@ -6,7 +6,11 @@ export class ListOrdersController {
   async handle(req: Request, res: Response) {
     const useCase = container.resolve(ListOrdersUseCase);
 
-    const response = await useCase.execute();
+    const {
+      query: { status },
+    } = req as typeof req & { query: any };
+
+    const response = await useCase.execute({ status });
 
     return res.status(200).json(response);
   }
