@@ -14,10 +14,8 @@ export class DeleteProductTypeUseCase {
       throw new AppError({ status: 404 });
     }
 
-    const createdProductType = await prisma.productType.delete({
+    await prisma.productType.delete({
       where: { id },
     });
-
-    return createdProductType;
   }
 }

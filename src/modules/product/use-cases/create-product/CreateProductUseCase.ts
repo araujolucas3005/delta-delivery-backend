@@ -5,6 +5,7 @@ import { AppError } from "../../../../shared/infra/http/errors/AppError";
 
 import { prisma } from "../../../../shared/infra/prisma/prismaClient";
 import { StorageProvider } from "../../../../shared/provider/StorageProvider/StorageProvider";
+import { validateSchema } from "../../../../shared/utils/validateSchema";
 import { createProductSchema } from "./createProductSchema";
 
 type Request = InferType<typeof createProductSchema>;
@@ -18,9 +19,7 @@ export class CreateProductUseCase {
 
   async execute(data: Request) {
     try {
-      createProductSchema.validateSync(data, {
-        stripUnknown: true,
-      });
+      validateSchema(createProductSchema, data);
 
       let productTypeCreateOptions: any;
 
@@ -61,12 +60,26 @@ export class CreateProductUseCase {
             name: data.name,
             description: data.description,
             isAvailable: data.isAvailable,
-            price: data.price * 100,
             imageUrl: data.imageUrl && `product/${data.imageUrl}`,
             productType: productTypeCreateOptions,
+            ...(data.price
+              ? {
+                  price: Number(data.price) * 100,
+                }
+              : {
+                  sizes: {
+                    createMany: {
+                      data: data.sizes!.map(size => ({
+                        productSizeId: size.id,
+                        price: size.price * 100,
+                      })),
+                    },
+                  },
+                }),
           },
           include: {
             productType: true,
+            sizes: true,
           },
         });
 

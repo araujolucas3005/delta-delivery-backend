@@ -1,14 +1,14 @@
-import { injectable } from "tsyringe";
+import { singleton } from "tsyringe";
 import { InferType } from "yup";
 
 import { AppError } from "../../../../shared/infra/http/errors/AppError";
 import { prisma } from "../../../../shared/infra/prisma/prismaClient";
-import { OrderStatusSchema } from "./OrderStatusSchema";
+import { OrderStatusSchema } from "./CreateOrderStatusSchema";
 
 type Request = InferType<typeof OrderStatusSchema>;
 
-@injectable()
-export class OrderStatusUseCase {
+@singleton()
+export class CreateOrderStatusUseCase {
   async execute(data: Request) {
     OrderStatusSchema.validateSync(data, { stripUnknown: true });
 
@@ -26,6 +26,7 @@ export class OrderStatusUseCase {
     const createdOrderStatus = await prisma.orderStatus.create({
       data,
     });
+
     return createdOrderStatus;
   }
 }

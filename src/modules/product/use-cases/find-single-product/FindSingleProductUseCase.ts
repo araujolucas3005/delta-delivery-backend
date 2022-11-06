@@ -9,6 +9,27 @@ export class FindSingleProductUseCase {
       where: {
         id,
       },
+      include: {
+        productType: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        sizes: {
+          select: {
+            id: true,
+            price: true,
+            productSize: {
+              select: {
+                id: true,
+                unit: true,
+                value: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!productExists) {

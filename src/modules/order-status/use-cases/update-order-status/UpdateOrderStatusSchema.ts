@@ -1,5 +1,5 @@
 import * as yup from "yup";
 
-export const OrderStatusSchema = yup.object().shape({
+export const orderStatusSchema = yup.object().shape({
   status: yup.string().min(3).required(),
 });

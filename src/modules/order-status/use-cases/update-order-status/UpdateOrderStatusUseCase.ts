@@ -3,32 +3,28 @@ import { InferType } from "yup";
 
 import { prisma } from "../../../../shared/infra/prisma/prismaClient";
 import { AppError } from "../../../../shared/infra/http/errors/AppError";
-import { OrderStatusSchema } from "./UpdateOrderStatusSchema";
+import { orderStatusSchema } from "./UpdateOrderStatusSchema";
+import { validateSchema } from "../../../../shared/utils/validateSchema";
+import { findOrThrow } from "../../../../shared/utils/findOrThrow";
 
-type Request = InferType<typeof OrderStatusSchema>;
+type Request = InferType<typeof orderStatusSchema>;
 
 @injectable()
 export class UpdateOrderStatusUseCase {
-  async execute(data: Request) {
-    OrderStatusSchema.validateSync(data, { stripUnknown: true });
+  async execute(id: string, data: Request) {
+    validateSchema(orderStatusSchema, data);
 
-    const orderStatusExists = await prisma.orderStatus.findFirst({
+    const orderStatus = await findOrThrow("Order Status", async () =>
+      prisma.orderStatus.findFirst({
+        where: { id },
+      }),
+    );
+
+    const orderStatusInUse = await prisma.orderStatus.findFirst({
       where: { status: data.status },
     });
 
-    if (!orderStatusExists) {
-      throw new AppError({
-        message: "Order status does not exists",
-        status: 404,
-      });
-    }
-
-    // Check if the status is already in use
-    const orderStatusInUse = await prisma.orderStatus.findMany({
-      where: { status: data.status },
-    });
-
-    if (orderStatusInUse && orderStatusInUse !== data.id) {
+    if (orderStatusInUse && orderStatusInUse.id !== orderStatus.id) {
       throw new AppError({
         message: "Order status already exists",
         type: "[already-exists]",
@@ -36,9 +32,10 @@ export class UpdateOrderStatusUseCase {
     }
 
     const updatedOrderStatus = await prisma.orderStatus.update({
-      where: { id: data.id },
+      where: { id },
       data,
     });
+
     return updatedOrderStatus;
   }
 }
