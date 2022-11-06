@@ -15,7 +15,7 @@ routes
   .use("/payment-methods", paymentMethodRoutes)
   .use("/products", productRoutes)
   .use("/payment-methods", paymentMethodRoutes)
-  .use("/user-manager", userManagerRoutes);
+  .use("/user-manager", userManagerRoutes)
   .use("/product-sizes", productSizeRoutes)
   .use("/order-status", orderStatusRoutes)
   .use("/orders", orderRoutes)
