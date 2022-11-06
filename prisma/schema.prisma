@@ -110,7 +110,7 @@ model ProductsOrders {
 }
 
 model UserManager {
-  id       String @id @default(uuid())
+  id       Int    @id
   name     String
   login    String @unique
   password String

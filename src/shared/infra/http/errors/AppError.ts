@@ -1,7 +1,13 @@
+type ErrorType =
+  | "[default]"
+  | "[body-validation]"
+  | "[already-exists]"
+  | "[auth]";
+
 interface AppErrorParams {
   message?: string;
   status?: number;
-  type?: "[default]" | "[body-validation]" | "[already-exists]";
+  type?: ErrorType;
 }
 
 export class AppError {

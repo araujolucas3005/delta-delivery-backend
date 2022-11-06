@@ -6,7 +6,10 @@ export class UpdateUserManagerController {
   async handle(req: Request, res: Response) {
     const useCase = container.resolve(UpdateUserManagerUseCase);
 
-    const response = useCase.execute(req.params.id, req.body);
+    const response = useCase.execute({
+      ...req.body,
+      id: req.userId,
+    });
 
     return res.status(200).send(response);
   }

@@ -9,12 +9,12 @@ type Request = InferType<typeof UpdateUserManagerSchema>;
 
 @injectable()
 export class UpdateUserManagerUseCase {
-  async execute(id: string, data: Request) {
+  async execute(data: Request) {
     UpdateUserManagerSchema.validateSync(data, { stripUnknown: true });
 
     const userManagerExists = await prisma.userManager.findFirst({
       where: {
-        id,
+        id: data.id,
       },
     });
 
@@ -31,7 +31,7 @@ export class UpdateUserManagerUseCase {
       },
     });
 
-    if (userManagerWithSameLogin && userManagerWithSameLogin.id !== id) {
+    if (userManagerWithSameLogin && userManagerWithSameLogin.id !== data.id) {
       throw new AppError({
         message: "User Manager already exists",
         type: "[already-exists]",
@@ -39,7 +39,7 @@ export class UpdateUserManagerUseCase {
     }
 
     const updatedUserManager = await prisma.userManager.update({
-      where: { id },
+      where: { id: data.id },
       data,
     });
 
