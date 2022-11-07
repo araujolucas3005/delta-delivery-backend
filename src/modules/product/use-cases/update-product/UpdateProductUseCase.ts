@@ -24,7 +24,7 @@ export class UpdateProductUseCase {
 
       const productExists = await prisma.product.findFirst({ where: { id } });
 
-      if (!productExists) {
+      if (!productExists || productExists.deleted) {
         throw new AppError({ message: "Product not found", status: 404 });
       }
 
@@ -36,8 +36,40 @@ export class UpdateProductUseCase {
             name: data.name,
             description: data.description,
             isAvailable: data.isAvailable,
-            price: data.price && data.price * 100,
             imageUrl: data.imageUrl && `product/${data.imageUrl}`,
+            ...(data.price
+              ? {
+                  price: Number(data.price) * 100,
+                  sizes: {
+                    deleteMany: {
+                      productId: id,
+                    },
+                  },
+                }
+              : data.sizes && {
+                  price: null,
+                  sizes: {
+                    deleteMany: {
+                      productId: id,
+                    },
+                    createMany: {
+                      data: data.sizes!.map(size => ({
+                        productSizeId: size.id,
+                        price: size.price * 100,
+                        ...(size.productRelationId && {
+                          id: size.productRelationId,
+                        }),
+                      })),
+                    },
+                  },
+                }),
+          },
+          include: {
+            sizes: {
+              include: {
+                productSize: true,
+              },
+            },
           },
         });
 

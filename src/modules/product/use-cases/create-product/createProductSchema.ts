@@ -4,6 +4,7 @@ export const createProductSchema = yup.object().shape({
   name: yup.string().min(3).required(),
   description: yup.string().min(3).required(),
   isAvailable: yup.boolean().notRequired(),
+  imageUrl: yup.string().notRequired(),
   price: yup.lazy((_, { parent }) => {
     if (parent.sizes) {
       return yup.string().optional();
@@ -11,7 +12,6 @@ export const createProductSchema = yup.object().shape({
 
     return yup.number().required();
   }),
-  imageUrl: yup.string().notRequired(),
   sizes: yup.lazy((_, { parent }) => {
     if (parent.price) {
       return yup.array().optional();
