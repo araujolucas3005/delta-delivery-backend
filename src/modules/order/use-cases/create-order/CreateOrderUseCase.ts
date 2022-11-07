@@ -79,7 +79,6 @@ export class CreateOrderUseCase {
     const totalValue = products.reduce(
       (total, { quantity = 1, productSizeId, id }) => {
         const { product } = productsMap[id];
-
         let { price } = product;
 
         // se não tiver o price, então o valor deve estar atrelado ao tamanho
@@ -90,10 +89,11 @@ export class CreateOrderUseCase {
 
           // verifica se o produto tem o tamanho enviado
           if (!productSize) {
+            price = 0;
             productsWithSizeNotFound.push(product.name);
+          } else {
+            price = productSize.price;
           }
-
-          price = 0;
         }
 
         // para colocar na tabela intermediária entre pedido e produto
