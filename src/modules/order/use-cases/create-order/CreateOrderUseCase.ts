@@ -58,7 +58,8 @@ export class CreateOrderUseCase {
 
     // verifica se todos os produtos enviados existem
     products.forEach((product, i) => {
-      if (!productsMap[product.id]) {
+      const dbProduct = productsMap[product.id];
+      if (!dbProduct || dbProduct.product.deleted) {
         productsNotFound.push(i);
       }
     });

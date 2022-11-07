@@ -31,6 +31,7 @@ model Product {
   isAvailable Boolean  @default(true) @map("is_available")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
+  deleted     Boolean  @default(false)
 
   productType   ProductType @relation(fields: [productTypeId], references: [id])
   productTypeId String      @map("product_type_id")
@@ -135,7 +136,7 @@ model ProductSizesProducts {
   id    String @id @default(uuid())
   price Int
 
-  productSize   ProductSize @relation(fields: [productSizeId], references: [id])
+  productSize   ProductSize @relation(fields: [productSizeId], references: [id], onDelete: Cascade)
   productSizeId String      @map("product_size_id")
 
   product   Product @relation(fields: [productId], references: [id])

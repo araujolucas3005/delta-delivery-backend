@@ -8,6 +8,9 @@ export class ListProductsUseCase {
       orderBy: {
         createdAt: "desc",
       },
+      where: {
+        deleted: false,
+      },
       include: {
         productType: {
           select: {
